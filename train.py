@@ -1,5 +1,5 @@
 from cli import build_train_argument_parser
-from runner import run_experiment
+from training.experiment import run_experiment
 
 
 def main() -> None:

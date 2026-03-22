@@ -13,10 +13,11 @@ import torch
 from torch import nn
 
 from cli import validate_experiment_args
-from data_utils import build_dataloaders
-from engine import evaluate, resolve_device, train_one_epoch
 from models import VisionTransformer
 from optimizers import build_optimizer
+
+from .data import build_dataloaders
+from .loop import evaluate, resolve_device, train_one_epoch
 
 
 def set_seed(seed: int) -> None:

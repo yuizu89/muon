@@ -1,5 +1,5 @@
 from cli import build_compare_argument_parser
-from runner import run_comparison
+from training.experiment import run_comparison
 
 
 def main() -> None:

@@ -94,6 +94,31 @@ def build_compare_argument_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def build_plot_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Plot training curves from a run or comparison directory",
+    )
+    parser.add_argument(
+        "input_path",
+        type=Path,
+        help="Path to a run directory or a comparison directory",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=None,
+        help="Directory to save plots. Defaults to <input_path>/plots",
+    )
+    parser.add_argument(
+        "--format",
+        choices=["png", "pdf", "svg"],
+        default="png",
+        help="Image format used for saved plots",
+    )
+    parser.add_argument("--dpi", type=int, default=150)
+    return parser
+
+
 def validate_experiment_args(args: argparse.Namespace) -> None:
     if args.train_subset_ratio <= 0.0 or args.train_subset_ratio > 1.0:
         raise ValueError("--train-subset-ratio must be within (0, 1]")
@@ -101,3 +126,8 @@ def validate_experiment_args(args: argparse.Namespace) -> None:
         raise ValueError("--train-subset-size must be non-negative")
     if args.image_size != 32:
         raise ValueError("This experiment currently expects CIFAR-10 image size 32")
+
+
+def validate_plot_args(args: argparse.Namespace) -> None:
+    if args.dpi <= 0:
+        raise ValueError("--dpi must be positive")
