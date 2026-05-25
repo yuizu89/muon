@@ -55,9 +55,9 @@ class SAM(torch.optim.Optimizer):
     def second_step(self, zero_grad: bool = False) -> None:
         for group in self.param_groups:
             for parameter in group["params"]:
-                if parameter.grad is None:
-                    continue
-                parameter.data.copy_(self.state[parameter]["old_parameter"])
+                old_parameter = self.state[parameter].pop("old_parameter", None)
+                if old_parameter is not None:
+                    parameter.data.copy_(old_parameter)
 
         self.base_optimizer.step()
 
@@ -70,9 +70,12 @@ class SAM(torch.optim.Optimizer):
             raise RuntimeError("SAM requires a closure")
 
         closure = torch.enable_grad()(closure)
+        self.zero_grad(set_to_none=True)
+        loss = closure()
         self.first_step(zero_grad=True)
         closure()
         self.second_step()
+        return loss
 
     def state_dict(self):
         state = super().state_dict()

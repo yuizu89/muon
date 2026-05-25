@@ -36,7 +36,8 @@ def build_adamw_parameter_groups(
             {"params": decay_parameters, "weight_decay": weight_decay}
         )
     if no_decay_parameters:
-        parameter_groups.append({"params": no_decay_parameters, "weight_decay": 0.0})
+        parameter_groups.append(
+            {"params": no_decay_parameters, "weight_decay": 0.0})
     return parameter_groups
 
 
