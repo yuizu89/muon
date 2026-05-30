@@ -27,4 +27,4 @@ RUN python3 -m venv "$VIRTUAL_ENV" \
 
 COPY . .
 
-CMD ["python", "compare.py"]
+#CMD ["python", "compare.py"]
